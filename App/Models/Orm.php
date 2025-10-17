@@ -18,6 +18,7 @@ class Orm
 
     public function getById($id)
     {
+        //retorna el item del id passat
         foreach ($_SESSION[$this->model] as $item) {
             if ($item['id'] == $id) {
                 return $item;
@@ -26,17 +27,38 @@ class Orm
         return null;
     }
 
-    public function removeItemById($id) {}
-
-    public function create($item) {
-        array_push($_SESSION[$this->model],$item);
+    public function removeItemById($id) {
+        //elimina el item amb el id passat
     }
 
-    public function getAll() {
+    public function create($item)
+    {
+        array_push($_SESSION[$this->model], $item);
+    }
+
+    public function getAll()
+    {
         return $_SESSION[$this->model];
     }
 
-    public function updateItemById($id) {}
+    public function updateItemById($item) {
+        //actulaitza el item dins el model a 
+        //parir del id del item passat
+    }
 
-    public function reset() {}
+    public function reset() {
+        //esboora el contingut del model
+    }
+
+    public function sessionCreated()
+    {
+        if (isset($_SESSION[$this->model])) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getLastId() {
+        //retorna el Id per crea un nou item del model
+    }
 }
