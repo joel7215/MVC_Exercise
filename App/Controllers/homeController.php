@@ -12,12 +12,13 @@ class homeController extends Controller
     {
         //carrega la vista principal de l'aplicacio
         $params['title'] = 'HomeApp';
-        $params['id'] = 0;
+
 
         $u = new User();
+        //comprova si s'ha creat la variable de sessio d'usuaris
         if (!$u->sessionCreated()) $this->loadUserData();
-        $params['users'] = $u->getAll();
-        $this->render('/home/index', $params);
+        
+        $this->render('/home/index');
     }
 
     public function loadUserData()

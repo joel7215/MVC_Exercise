@@ -24,7 +24,7 @@
             </a>
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Inicia Sessió </a>
+                    <a class="nav-link active" href="user">Inicia Sessió </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Regitre</a>
