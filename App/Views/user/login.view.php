@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-md-5"> <!-- Login wodth colums -->
             <h2 class="text-center mb-4">Login</h2>
-            <form action="../controller/login_controller.php" method="POST" class="border p-4 bg-light">
+            <form action="/user/login" method="POST" class="border p-4 bg-light">
                 <div class="mb-3">
                     <label for="username" class="form-label">Usuari</label>
                     <input type="text" id="username" name="username" class="form-control" placeholder="Quin regeex demanem???" required>

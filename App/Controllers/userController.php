@@ -40,6 +40,18 @@ class userController extends Controller
         //si hi ha erros els mostra a la vista del login
         //si el login te exit redirigeix al productController amb
         //header('Location: .....')
+        echo "esetic al login";
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $u = new User;
+        $userLogged = $u->login($username,$password);
+        if ($userLogged==3) {
+            $params['error']='Credencials incorrectes';
+            $this->render("user/login",$params);
+        } else {
+            $_SESSION['user_logged'] =  $u->login($username,$password);
+        }
+
     }
 
     public function edit(){
