@@ -24,7 +24,11 @@
             </a>
             <ul class="nav">
                 <li class="nav-item">
+<<<<<<< HEAD
                     <a class="nav-link active" href="/user">Inicia Sessió </a>
+=======
+                    <a class="nav-link active" href="user">Inicia Sessió </a>
+>>>>>>> a89ed638489828053d0514b3151c7ab1666cad97
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/user/register">Regitre</a>
