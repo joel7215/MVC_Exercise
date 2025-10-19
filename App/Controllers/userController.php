@@ -63,7 +63,8 @@ class userController extends Controller
         foreach($user->getAll() as $u){
             if($u["username"]==$_POST["username"]){
                 if($u["password"]==$_POST["password"]){
-                    $this->render("user/login");exit;
+                    $this->render("user/product");exit;
+                    // header("Location: ../../Controllers/productController.php");exit;
                 }
             }
         }

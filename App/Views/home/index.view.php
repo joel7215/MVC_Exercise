@@ -11,10 +11,10 @@
     $home->loadUserData();
     $u=$user->getLastId();
     
-    echo "<pre>";
-    echo $u["username"];
-    print_r($user->getAll());
-    echo "</pre>";
+    // echo "<pre>";
+    // echo $u["username"];
+    // print_r($user->getAll());
+    // echo "</pre>";
 ?>
 <!-- </div> -->
 
