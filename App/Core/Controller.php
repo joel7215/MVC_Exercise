@@ -11,9 +11,10 @@ class Controller{
         require_once(__DIR__ . "/../Views/layouts/" . $layout . ".layout.php");
     }
 
-    protected function userLogged(){
+    protected function userLogged($user){
         //retorna True si l'usuari esta logejat
         //cal fer servir el model user
+        
     }
 
     protected function adminLogged() {

@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Core\Controller;
 use App\Models\User;
 
@@ -42,6 +41,5 @@ class homeController extends Controller
         ];
         $u = new User;
         $u->create($user);
-
     }
 }

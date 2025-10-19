@@ -29,6 +29,11 @@ class Orm
 
     public function removeItemById($id) {
         //elimina el item amb el id passat
+        foreach($_SESSION[$this->model] as $item){
+            if($item["id"]==$id){
+                unset($item);
+            }
+        }
     }
 
     public function create($item)
@@ -48,6 +53,7 @@ class Orm
 
     public function reset() {
         //esboora el contingut del model
+        $_SESSION[$this->model] = [];
     }
 
     public function sessionCreated()
@@ -60,5 +66,10 @@ class Orm
 
     public function getLastId() {
         //retorna el Id per crea un nou item del model
+        $id=0;
+        foreach($_SESSION[$this->model] as $m){
+            if($m["id"]>$id) $id=$m["id"];
+        }
+        return $_SESSION[$this->model][$id];
     }
 }
