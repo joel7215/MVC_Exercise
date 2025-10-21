@@ -9,11 +9,13 @@ class userController extends Controller
 
     public function index() {
         //Carrega la vista del login
-        $this->render('user/login');
+        $params["title"]="Login";
+        $this->render('user/login',$params);
     }
 
     public function register() {
         //carrega la vista del registre
+        $params["title"]="register";
         $this->render("user/register");
     }
 
@@ -34,24 +36,55 @@ class userController extends Controller
         //crea el nou usuari
         //si hi ha errors, per exemple que el usuari ja existeix redirigeix a
         //la vista del registe amb els errors
-        if($_POST["pass1"]!=$_POST["pass2"]){
-            $this->render("user/register",["error"=>1]);exit;
-        }
-        $user=new User;
-        foreach($user->getAll() as $u){
-            if($u["username"]==$_POST["username"]){
-                $this->render("user/register",["error"=>1]);exit;
+
+        if($_SERVER["REQUEST_METHOD"]==="POST"){
+            if(isset($_POST)){
+                $username=$_POST["username"];
+                $pass1=$_POST["pass1"];
+                $pass2=$_POST["pass2"];
+                $mail=$_POST["mail"];
+
+                $user=new User;
+                if($user->usernameExist($username)){
+                    $params["error"]="El nom d'usuari ja existeix";
+                    $this->render("/user/register",$params);
+                }
+
+                //falten les comprovacions de password, mail....
+                //faltar un metode per obtenir el id nou usuari
+
+                $newUser=
+                [
+                    'id' => 0, //cal afegir la funcio per obtenir el id
+                    'username' => $username,
+                    'password' => $pass1,
+                    'mail' => $mail,
+                    'admin' => false
+                ];
+
+                $user->create($newUser);
+                $this->index();
             }
         }
-        $data=[
-            "id"=>count($user->getAll()),
-            "username"=>$_POST["username"],
-            "password"=>$_POST["pass1"],
-            "mail"=>$_POST["mail"],
-            "admin"=>false,
-        ];
-        $user->create($data);
-        $this->render("user/register",["success"=>1]);
+
+        // if($_POST["pass1"]!=$_POST["pass2"]){
+        //     $this->render("user/register",["error"=>1]);exit;
+        // }
+        // $user=new User;
+        // foreach($user->getAll() as $u){
+        //     if($u["username"]==$_POST["username"]){
+        //         $this->render("user/register",["error"=>1]);exit;
+        //     }
+        // }
+        // $data=[
+        //     "id"=>count($user->getAll()),
+        //     "username"=>$_POST["username"],
+        //     "password"=>$_POST["pass1"],
+        //     "mail"=>$_POST["mail"],
+        //     "admin"=>false,
+        // ];
+        // $user->create($data);
+        // $this->render("user/register",["success"=>1]);
     }
 
     public function login(){
@@ -64,7 +97,7 @@ class userController extends Controller
             if($u["username"]==$_POST["username"]){
                 if($u["password"]==$_POST["password"]){
                     $this->render("user/product");exit;
-                    // header("Location: ../../Controllers/productController.php");exit;
+                    header("Location: /product");exit;
                 }
             }
         }

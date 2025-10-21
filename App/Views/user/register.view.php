@@ -28,8 +28,11 @@
                         <?php
                         //codi php dels errors
                         if(isset($params["error"])){
-                            echo "Error de crear usuari";
+                            echo $params["error"];
                         }
+                        // if(isset($params["error"])){
+                        //     echo "Error de crear usuari";
+                        // }
                         ?>
                     </p>
                     <p class="from-label mb-3 text-success fw-bold fs-6">

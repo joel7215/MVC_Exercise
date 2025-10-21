@@ -12,6 +12,7 @@ class productController extends Controller
 {
 	public function index()
 	{
+		$u=new User;
 		$this->render("user/product");
 	}
 }

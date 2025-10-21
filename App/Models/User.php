@@ -26,6 +26,21 @@ class User extends Orm
     }
 
     public function setUserLogged($user) {
-        $this->userLogged=$user;
+        if($user==null){
+            unset($_SESSION["user_looged"]);
+        }else{
+            $_SESSION["user_logged"]=$user;
+        }
     }
+
+    public function usernameExist($username)
+    {
+        foreach($_SESSION[$this->model] as $user){
+            if($username==$user["username"]){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
