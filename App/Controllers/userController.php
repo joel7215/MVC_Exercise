@@ -45,7 +45,6 @@ class userController extends Controller
         //crea el nou usuari
         //si hi ha errors, per exemple que el usuari ja existeix redirigeix a
         //la vista del registe amb els errors
-
         if($_SERVER["REQUEST_METHOD"]==="POST"){
             if(isset($_POST)){
                 $username=$_POST["username"];
@@ -81,6 +80,30 @@ class userController extends Controller
                 ];
 
                 $user->create($newUser);
+                
+                //fitxers
+                if($_FILES["avatar"]["size"]>500*1024){
+                    $params["error"]="Mida massa gran";
+                    $this->render("user/register",$params);exit;
+                }
+
+                $typeFile=$_FILES["avatar"]["type"];
+                if($typeFile!="image/jpg"
+                && $typeFile!="image/png"
+                && $typeFile!="image/jpeg"){
+                    $params["error"]="Les imatges nomes JPG o PNG";
+                    $this->render("user/register",$params);exit;
+                }
+
+                $fileExt=pathinfo($_FILES["avatar"]["name"],PATHINFO_EXTENSION);
+                $fileName=pathinfo($_FILES["avatar"]["name"],PATHINFO_FILENAME);
+                $nameFile=$_POST["username"];
+                $nameFile=$nameFile.time().".".$fileExt;
+                
+                $filePath=DIR_APP."/Public/Assets/avatar/".$nameFile;
+                echo $filePath;
+                move_uploaded_file($_FILES["avatar"]["tmp_name"],$filePath);
+
                 $this->index();
             }
         }

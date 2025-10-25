@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <h2 class="text-center mb-4"> Registre d'usuari</h2>
-            <form action="/user/store" method="POST" class="border p-4 bg-light">
+            <form action="/user/store" method="POST" class="border p-4 bg-light" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="username" class="form-label">Nom d'usuari: </label>
                     <input type="text" name="username" class="form-control" placeholder="Regex del nom usuari" required>
@@ -19,6 +19,10 @@
                     <label for="username" class="form-label">Email:  </label>
                     <input type="text" name="mail" class="form-control" required>
                 </div>
+				<div class="mb-3">
+					<label for="imageprofile" class="form-label">Imatge de perfil: </label>
+					<input type="file" name="avatar" class="form-control" require>
+				</div>
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-primary"> Envia</button>
                 </div>
