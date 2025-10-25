@@ -22,14 +22,23 @@ class userController extends Controller
     public function profile() {
         //carrega la vista del perfil d'usuari
         //es una ruta protegia, cal fer servir funcions de Controller
-        $this->render("user/profile");
-
+        $user=new User;
+        if($this->userLogged($user->getUserLogged())){
+            $this->render("user/profile");exit;
+        }
+        $this->render("user/index");exit;
     }
 
     public function logout() {
         //Fa la lògica del logout
         //es una ruta protegia, cal fer servir funcions de Controller
-        
+        $user=new User;
+        if($this->userLogged($user->getUserLogged())){
+            $user=new User;
+            $user->userDeslogged();
+            $this->render("home/index");exit;
+        }
+        $this->render("home/index");exit;
     }
 
     public function store(){
@@ -48,6 +57,15 @@ class userController extends Controller
                 if($user->usernameExist($username)){
                     $params["error"]="El nom d'usuari ja existeix";
                     $this->render("/user/register",$params);
+                    exit;
+                }
+
+                if($pass1!=$pass2){
+                    // $params["error"]="Les contrasenyes no coinsideixen";
+                    // $this->render("/user/register/",$params);
+                    $params["error"]="Les contrasenyes no coinsideixen";
+                    $this->render("/user/register",$params);
+                    exit;
                 }
 
                 //falten les comprovacions de password, mail....
@@ -55,7 +73,7 @@ class userController extends Controller
 
                 $newUser=
                 [
-                    'id' => 0, //cal afegir la funcio per obtenir el id
+                    'id' => count($user->getAll()), //cal afegir la funcio per obtenir el id
                     'username' => $username,
                     'password' => $pass1,
                     'mail' => $mail,
@@ -66,25 +84,6 @@ class userController extends Controller
                 $this->index();
             }
         }
-
-        // if($_POST["pass1"]!=$_POST["pass2"]){
-        //     $this->render("user/register",["error"=>1]);exit;
-        // }
-        // $user=new User;
-        // foreach($user->getAll() as $u){
-        //     if($u["username"]==$_POST["username"]){
-        //         $this->render("user/register",["error"=>1]);exit;
-        //     }
-        // }
-        // $data=[
-        //     "id"=>count($user->getAll()),
-        //     "username"=>$_POST["username"],
-        //     "password"=>$_POST["pass1"],
-        //     "mail"=>$_POST["mail"],
-        //     "admin"=>false,
-        // ];
-        // $user->create($data);
-        // $this->render("user/register",["success"=>1]);
     }
 
     public function login(){
@@ -96,7 +95,11 @@ class userController extends Controller
         foreach($user->getAll() as $u){
             if($u["username"]==$_POST["username"]){
                 if($u["password"]==$_POST["password"]){
-                    $this->render("user/product");exit;
+                    $user->setUserLogged($u);
+                    $params["title"]="site";
+                    $userList=$user->getAll();
+                    $params["users"]=$userList;
+                    $this->render("user/product",$params,"site");exit;
                     header("Location: /product");exit;
                 }
             }
@@ -107,6 +110,42 @@ class userController extends Controller
     public function edit(){
         //fa la logica d'editar el perfil d'usuari
         //es una ruta protegia, cal fer servir funcions de Controller
+        $user=new User;
+        $userLogged=$user->getUserLogged();
+        if(!$this->userLogged($userLogged)){
+            $params["error"]="El usuari no esta loggejat";
+            $this->render("/user/profile",$params,"site");
+            exit;
+        }
+
+        if($user->usernameExist($_POST["username"])
+        && $userLogged["username"]!=$_POST["username"]){
+            $params["error"]="El nom d'usuari ja existeix";
+            $this->render("/user/profile",$params,"site");
+            exit;
+        }
+
+        if($_POST["pass1"]!=$_POST["pass2"]){
+            // $params["error"]="Les contrasenyes no coinsideixen";
+            // $this->render("/user/register/",$params);
+            $params["error"]="Les contrasenyes no coinsideixen";
+            $this->render("/user/profile",$params,"site");
+            exit;
+        }
+        
+        $editUser=
+        [
+            'id' => $user->getUserLogged()["id"], //cal afegir la funcio per obtenir el id
+            'username' => $_POST["username"],
+            'password' => $_POST["pass1"],
+            'mail' => $_POST["mail"],
+            'admin' => false
+        ];
+
+        $user->modify($editUser);
+        $user->setUserLogged($editUser);
+        $params["title"]="Productes";
+        $this->render("user/product",$params,"site");
     }
 
 

@@ -49,6 +49,12 @@ class Orm
     public function updateItemById($item) {
         //actulaitza el item dins el model a 
         //parir del id del item passat
+        foreach($_SESSION[$this->model] as $key=>$i){
+            if($item["id"]==$i["id"]){
+                $_SESSION[$this->model][$key]=$item;
+                return;
+            }
+        }
     }
 
     public function reset() {
@@ -66,10 +72,17 @@ class Orm
 
     public function getLastId() {
         //retorna el Id per crea un nou item del model
-        $id=0;
-        foreach($_SESSION[$this->model] as $m){
+        $keyReturn=0; $id=0;
+        foreach($_SESSION[$this->model] as $key=>$m){
             if($m["id"]>$id) $id=$m["id"];
+            // echo "<pre>";
+            // print_r($m);
+            // echo "</pre>";
+            if($m["id"]>$id){
+                $keyReturn=$key;
+                $id=$m["id"];
+            }
         }
-        return $_SESSION[$this->model][$id];
+        return $_SESSION[$this->model][$key];
     }
 }

@@ -24,10 +24,10 @@
             </a>
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Perfil </a>
+                    <a class="nav-link active" href="/user/profile">Perfil </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Logout</a>
+                    <a class="nav-link" href="/user/logout">Logout</a>
                 </li>
             </ul>
         </div>

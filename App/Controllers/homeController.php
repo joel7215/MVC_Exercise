@@ -16,7 +16,7 @@ class homeController extends Controller
         $u = new User();
         //comprova si s'ha creat la variable de sessio d'usuaris
         if (!$u->sessionCreated()) $this->loadUserData();
-        
+
         $this->render('/home/index');
     }
 
